@@ -1,0 +1,13 @@
+{
+    "description": "A simple gnome extension to display greetings based on time of the day on top panel",
+    "name": "Greetings on Panel",
+    "shell-version" : [
+       "44", "45"
+       ],
+       
+    "url" : "https://github.com/anonlegionoke/greetings-on-panel",
+    "uuid" : "greetingsonpanel@legio",
+    "version" : 1
+
+
+}
