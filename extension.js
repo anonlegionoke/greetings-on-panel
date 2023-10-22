@@ -1,54 +1,50 @@
-const {St, Clutter} = imports.gi;
+const { St, Clutter } = imports.gi;
 const Main = imports.ui.main;
 const GLib = imports.gi.GLib;
 const Mainloop = imports.mainloop;
 
-
-
 let panelButton;
+let panelButtonText;
+let currentIndex = 0;
 
-function init () {
+function init() {
+    panelButton = new St.Bin({
+        style_class: "panel-button",
+    });
 
-panelButton = new St.Bin({
-    style_class : "panel-button",
-});
+    panelButtonText = new St.Label({
+        y_align: Clutter.ActorAlign.CENTER,
+    });
 
-let myArray = ["Good Morning 🌄", "Good Afternoon 🌞", "Good Evening 🌅"];
+    panelButton.set_child(panelButtonText);
 
-let panelButtonText = new St.Label({
-    text : myArray[0],
-    y_align: Clutter.ActorAlign.CENTER,
-});
-panelButton.set_child(panelButtonText);
+    updateGreeting();
+}
 
-let currentIndex = 2;
+function updateGreeting() {
+    const myArray = ["Good Morning 🌄", "Good Afternoon 🌞", "Good Evening 🌅"];
+    const now = GLib.DateTime.new_now_local();
+    const nowString = now.format("%H:%M");
 
-function toggle (){
-
-let now = GLib.DateTime.new_now_local();
-let nowString = now.format("%H:%M");
- 
- if (nowString < "12:00") {
-   currentIndex = (currentIndex + 1)%3
-    panelButtonText.set_text(myArray[currentIndex]);
+    if (nowString < "12:00") {
+        currentIndex = 0;
+    } else if (nowString < "17:00") {
+        currentIndex = 1;
+    } else {
+        currentIndex = 2;
     }
-    else if (nowString < "17:00") {
-    currentIndex = (currentIndex + 2)%3
+
     panelButtonText.set_text(myArray[currentIndex]);
-    }
-      else {
-      currentIndex = (currentIndex + 0)%3
-      panelButtonText.set_text(myArray[currentIndex]);
-      }
-  }
-  toggle();
 }
 
-function enable () {
-Main.panel._leftBox.insert_child_at_index(panelButton, -1); 
+function enable() {
+    Main.panel._leftBox.insert_child_at_index(panelButton, -1);
+    updateGreeting(); // Set the initial greeting
+    Mainloop.timeout_add_seconds(5, updateGreeting); // Update every 5 seconds
 }
 
-function disable (){
-Main.panel._leftBox.remove_child(panelButton);
+function disable() {
+    Main.panel._leftBox.remove_child(panelButton);
 }
+
 
