@@ -17,18 +17,16 @@ function init() {
     });
 
     panelButton.set_child(panelButtonText);
-
-    updateGreeting();
 }
 
 function updateGreeting() {
     const myArray = ["Good Morning 🌄", "Good Afternoon 🌞", "Good Evening 🌅"];
     const now = GLib.DateTime.new_now_local();
-    const nowString = now.format("%H:%M");
+    const nowString = now.format("%H:%M:%S");
 
-    if (nowString < "12:00") {
+    if (nowString < "12:00:00") {
         currentIndex = 0;
-    } else if (nowString < "17:00") {
+    } else if (nowString < "17:00:00") {
         currentIndex = 1;
     } else {
         currentIndex = 2;
@@ -38,13 +36,20 @@ function updateGreeting() {
 }
 
 function enable() {
-    Main.panel._leftBox.insert_child_at_index(panelButton, -1);
-    updateGreeting(); // Set the initial greeting
-    Mainloop.timeout_add_seconds(5, updateGreeting); // Update every 5 seconds
+    Main.panel._centerBox.insert_child_at_index(panelButton, 0);
+   let sourceId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 5, () => {
+    updateGreeting(); // Do something
+    const runAgain = true;
+
+    if (runAgain)
+        return GLib.SOURCE_CONTINUE;
+
+    return GLib.SOURCE_REMOVE;
+});
 }
 
 function disable() {
-    Main.panel._leftBox.remove_child(panelButton);
+    Main.panel._centerBox.remove_child(panelButton);
 }
 
 
