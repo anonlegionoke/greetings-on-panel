@@ -2,6 +2,7 @@ const { St, Clutter } = imports.gi;
 const Main = imports.ui.main;
 const GLib = imports.gi.GLib;
 const Mainloop = imports.mainloop;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 let panelButton;
 let panelButtonText;
@@ -20,16 +21,19 @@ function init() {
 }
 
 function updateGreeting() {
-    const myArray = ["Good Morning 🌄", "Good Afternoon 🌞", "Good Evening 🌅"];
+    const myArray = ["Good Morning 🌅️", "Good Afternoon 🌞", "Good Evening 🌇️", "Night 🌃️"];
     const now = GLib.DateTime.new_now_local();
     const nowString = now.format("%H:%M:%S");
 
-    if (nowString < "12:00:00") {
+    if ("05:00:00" < nowString < "12:00:00") {
         currentIndex = 0;
-    } else if (nowString < "17:00:00") {
+    } else if ("12:00:00" < nowString < "17:00:00") {
         currentIndex = 1;
-    } else {
+    } else if ("17:00:00" < nowString < "22:00:00") {
         currentIndex = 2;
+    }
+      else {
+        currentIndex = 3;
     }
 
     panelButtonText.set_text(myArray[currentIndex]);
@@ -51,5 +55,4 @@ function enable() {
 function disable() {
     Main.panel._centerBox.remove_child(panelButton);
 }
-
 
