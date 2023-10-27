@@ -38,7 +38,7 @@ function updateGreeting() {
 function enable() {
     Main.panel._centerBox.insert_child_at_index(panelButton, 0);
    let sourceId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 5, () => {
-    updateGreeting(); // Do something
+    updateGreeting(); 
     const runAgain = true;
 
     if (runAgain)
