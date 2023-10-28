@@ -6,7 +6,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 let panelButton;
 let panelButtonText;
-let currentIndex = 0;
+
 
 function init() {
     panelButton = new St.Bin({
@@ -25,14 +25,16 @@ function updateGreeting() {
     const now = GLib.DateTime.new_now_local();
     const nowString = now.format("%H:%M:%S");
 
-    if ("05:00:00" < nowString < "12:00:00") {
+let currentIndex = 0;
+
+    if (nowString < "12:00:00") {
         currentIndex = 0;
-    } else if ("12:00:00" < nowString < "17:00:00") {
+    } else if (nowString < "17:00:00") {
         currentIndex = 1;
-    } else if ("17:00:00" < nowString < "22:00:00") {
+    } else if (nowString < "22:00:00") {
         currentIndex = 2;
     }
-      else {
+      else if (nowString < "23:59:59"){
         currentIndex = 3;
     }
 
@@ -55,4 +57,5 @@ function enable() {
 function disable() {
     Main.panel._centerBox.remove_child(panelButton);
 }
+
 
