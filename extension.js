@@ -27,16 +27,21 @@ function updateGreeting() {
 
 let currentIndex = 0;
 
-    if (nowString < "12:00:00") {
+    if (nowString < "05:00:00") {
+        currentIndex = 3;
+    } else if (nowString < "12:00:00") {
         currentIndex = 0;
-    } else if (nowString < "17:00:00") {
+    } 
+      else if (nowString < "17:00:00"){
         currentIndex = 1;
-    } else if (nowString < "22:00:00") {
+    }
+      else if (nowString < "22:00:00") {
         currentIndex = 2;
     }
       else if (nowString < "23:59:59"){
         currentIndex = 3;
     }
+  
 
     panelButtonText.set_text(myArray[currentIndex]);
 }
