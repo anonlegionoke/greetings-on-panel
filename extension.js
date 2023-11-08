@@ -1,8 +1,11 @@
-const { St, Clutter } = imports.gi;
-const Main = imports.ui.main;
-const GLib = imports.gi.GLib;
+import St from 'gi://St';
+import Clutter from 'gi://Clutter';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import GLib from 'gi://GLib';
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
+
 const Mainloop = imports.mainloop;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
+
 
 let panelButton;
 let panelButtonText;
@@ -46,9 +49,17 @@ let currentIndex = 0;
     panelButtonText.set_text(myArray[currentIndex]);
 }
 
-function enable() {
-    Main.panel._centerBox.insert_child_at_index(panelButton, 0);
-   let sourceId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 5, () => {
+export default class greetingsonpanel extends Extension{
+constructor(metadata) {
+  super (metadata);
+  }
+  
+  enable(){
+  
+     init();
+     
+     Main.panel._centerBox.insert_child_at_index(panelButton, 0);
+    let sourceId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 5, () => {
     updateGreeting(); 
     const runAgain = true;
 
@@ -56,11 +67,10 @@ function enable() {
         return GLib.SOURCE_CONTINUE;
 
     return GLib.SOURCE_REMOVE;
-});
-}
+     });
+  }
 
-function disable() {
+  disable() {
     Main.panel._centerBox.remove_child(panelButton);
+   }
 }
-
-
