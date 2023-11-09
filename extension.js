@@ -58,7 +58,7 @@ constructor(metadata) {
   
      init();
      
-     Main.panel._centerBox.insert_child_at_index(panelButton, 0);
+    Main.panel._leftBox.insert_child_at_index(panelButton, -1);
     let sourceId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 5, () => {
     updateGreeting(); 
     const runAgain = true;
@@ -71,6 +71,8 @@ constructor(metadata) {
   }
 
   disable() {
-    Main.panel._centerBox.remove_child(panelButton);
+    Main.panel._left,Box.remove_child(panelButton);
    }
 }
+
+
